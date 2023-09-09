@@ -8,6 +8,8 @@ import com.example.SpringProject.entity.Customer;
 import com.example.SpringProject.repo.CustomerRepo;
 import com.example.SpringProject.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -111,10 +113,10 @@ throw new ClassNotFoundException();
 
     @Override
     public CustomerPaginatedDto searchAllCustomer(int page, int size, String searchText) {
-        List<Customer> customers = customerRepo.findAll();
+        Page<Customer> customers = customerRepo.searchAllByAddressOrName(searchText,PageRequest.of(page,size));
 
         List<ResponseCustomerDto> list=new ArrayList<>();
-        long recordCount=customerRepo.count();
+        long recordCount=customerRepo.countDataWithSearchText(searchText);
 
         for (Customer d: customers) {
             list.add(
