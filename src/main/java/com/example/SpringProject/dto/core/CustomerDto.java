@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Blob;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -16,5 +18,10 @@ public class CustomerDto {
     private String address;
     private double salary;
     private boolean activestate;
+    private Blob fileName;
+    private Blob resourceUrl;
+    private Blob directory;
+    private Blob hash;
+
 
 }

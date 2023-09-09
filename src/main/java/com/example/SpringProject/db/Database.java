@@ -3,8 +3,10 @@ package com.example.SpringProject.db;
 import com.example.SpringProject.dto.core.CustomerDto;
 import com.example.SpringProject.dto.request.RequestCustomerDto;
 import com.example.SpringProject.dto.response.ResponseCustomerDto;
+import lombok.SneakyThrows;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 public class Database {
@@ -19,7 +21,11 @@ public class Database {
                 dto.getName(),
                 dto.getAddress(),
                 dto.getSalary(),
-                true
+                true,
+                null,
+                null,
+                null,
+                null
 
         );
 
@@ -34,5 +40,53 @@ public class Database {
 
 
     }
+
+
+    public static ResponseCustomerDto findCustomer(int id) throws ClassNotFoundException {
+
+        Optional<CustomerDto>  selectedCustomer = customerTable.stream().filter(e->e.getPublicId()==id).findFirst();
+            if(selectedCustomer.isPresent()){
+                return new ResponseCustomerDto(
+                        selectedCustomer.get().getPublicId(),
+                        selectedCustomer.get().getName(),
+                        selectedCustomer.get().getAddress(),
+                        selectedCustomer.get().getSalary(),
+                        selectedCustomer.get().isActivestate()
+                );
+            }else {
+                throw new ClassNotFoundException();
+            }
+
+
+    }
+
+    public static ResponseCustomerDto updateCustomer(RequestCustomerDto dto,int id) throws ClassNotFoundException {
+
+        Optional<CustomerDto>  selectedCustomer = customerTable.stream().filter(e->e.getPublicId()==id).findFirst();
+
+        if(selectedCustomer.isPresent()){
+                    selectedCustomer.get().setName(dto.getName());
+                    selectedCustomer.get().setAddress(dto.getAddress());
+                    selectedCustomer.get().setSalary(dto.getSalary());
+
+
+            return new ResponseCustomerDto(
+                    selectedCustomer.get().getPublicId(),
+                    selectedCustomer.get().getName(),
+                    selectedCustomer.get().getAddress(),
+                    selectedCustomer.get().getSalary(),
+                    selectedCustomer.get().isActivestate()
+            );
+
+        }else {
+            throw new ClassNotFoundException();
+        }
+
+
+
+
+
+    }
+
 
 }
