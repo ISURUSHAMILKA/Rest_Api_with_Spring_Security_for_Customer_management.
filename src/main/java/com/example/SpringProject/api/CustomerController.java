@@ -54,10 +54,32 @@ public class CustomerController {
     }
 
 
+    @DeleteMapping(params = "id")
+    public ResponseEntity<StanderdResponse> deleteCustomer(
+            @RequestParam int id
+    ) throws ClassNotFoundException {
+        Database.deleteCustomer(id);
+        return new ResponseEntity<>(new StanderdResponse(
+
+                204,"customer deleted!",null), HttpStatus.NO_CONTENT
+        );
 
 
+    }
 
+public ResponseEntity<StanderdResponse> getAllCustomers(
+        @RequestParam int page,
+        @RequestParam int size,
+        @RequestParam String searchText
+) throws ClassNotFoundException {
+    return new ResponseEntity<>(
+            new StanderdResponse(
 
+            200,"customer list",Database.searchAllCustomer(page, size, searchText)),
+            HttpStatus.OK
+    );
+
+}
 
 
 

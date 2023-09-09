@@ -3,9 +3,11 @@ package com.example.SpringProject.db;
 import com.example.SpringProject.dto.core.CustomerDto;
 import com.example.SpringProject.dto.request.RequestCustomerDto;
 import com.example.SpringProject.dto.response.ResponseCustomerDto;
+import com.example.SpringProject.dto.response.paginated.model.CustomerPaginatedDto;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -81,12 +83,44 @@ public class Database {
         }else {
             throw new ClassNotFoundException();
         }
+    }
 
 
+    public static void deleteCustomer (int id) throws ClassNotFoundException {
+        Optional<CustomerDto>  selectedCustomer = customerTable.stream().filter(e->e.getPublicId()==id).findFirst();
 
+
+        if (selectedCustomer.isPresent()){
+            customerTable.remove(selectedCustomer.get());
+            return;
+        }
+        throw new ClassNotFoundException();
+
+
+    }
+
+    public static CustomerPaginatedDto searchAllCustomer(int page,int size,String searchText) throws ClassNotFoundException {
+
+        List<ResponseCustomerDto> list =new ArrayList<>();
+        for (CustomerDto d: customerTable){
+            list.add(new ResponseCustomerDto(
+                    d.getPublicId(),
+                    d.getName(),
+                    d.getAddress(),
+                    d.getSalary(),
+                    d.isActivestate()
+            ));
+
+        }
+        return new CustomerPaginatedDto(customerTable.size(),list);
 
 
     }
 
 
+
+
 }
+
+
+
