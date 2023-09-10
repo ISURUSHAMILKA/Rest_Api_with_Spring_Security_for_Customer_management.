@@ -6,10 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,8 +23,12 @@ public class UserRole {
 
     @Column(name = "role_name" ,length = 45,unique = true)
     private String roleName;
+
     @Column(name = "description" ,length = 250)
     private String description;
+
+    @OneToMany(mappedBy = "userRole",fetch = FetchType.LAZY)
+    private Set<UserRoleHasUser> userRoleHasUsers;
 
 
 
