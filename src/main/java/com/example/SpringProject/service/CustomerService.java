@@ -3,7 +3,9 @@ package com.example.SpringProject.service;
 import com.example.SpringProject.dto.request.RequestCustomerDto;
 import com.example.SpringProject.dto.response.ResponseCustomerDto;
 import com.example.SpringProject.dto.response.paginated.model.CustomerPaginatedDto;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface CustomerService {
 
     public ResponseCustomerDto createCustomer(RequestCustomerDto dto);

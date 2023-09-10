@@ -1,15 +1,31 @@
 package com.example.SpringProject;
 
+import com.example.SpringProject.service.UserRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
 
-public class SpringProjectApplication {
+public class SpringProjectApplication implements CommandLineRunner {
+
+
+	private UserRoleService userRoleService;
+
+	@Autowired
+	public SpringProjectApplication(UserRoleService userRoleService) {
+		this.userRoleService = userRoleService;
+	}
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringProjectApplication.class, args);
 	}
 
+	@Override
+	public void run(String... args) throws Exception {
+		userRoleService.initializeRoles();
+	}
 }
